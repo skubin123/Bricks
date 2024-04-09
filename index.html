@@ -4,12 +4,14 @@
 <head>
     <title>The bricks</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="style.css">
 </head>
 
 <body onload="init()">
     <canvas id="canvas" width="300" height="400" style="margin-left: 500px;"></canvas>
-    <p>Točke: <mark id="tocke">0</mark></p> <!-- Display points -->
-    <p>Čas: <span id="cas">00:00</span></p> <!-- Display timer -->
+    <p id="toc">Točke: <mark id="tocke">0</mark></p> <!-- Display points -->
+    <p id="cs">Čas: <span id="cas">00:00</span></p> <!-- Display timer -->
+	<img src="slika1.png" id="restart" onclick="reload()">
     <script>
         var x = 150;
         var y = 150;
@@ -223,6 +225,9 @@
                 }
             }
         }
+		function reload(){
+			window.location.reload();
+			}
     </script>
 </body>
 
