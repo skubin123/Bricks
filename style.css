@@ -1,17 +1,33 @@
+body{
+	background-image:url("slika1.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	
+}
 #canvas{
-	border:2px solid black;
-	margin-left:40%;
+	margin-top:12%;
+	margin-left:50;
 }
 #restart{
 	height:50px;
 	width:50px;
-	margin-left:38%;
+	margin-left:48%;
+	margin-top:1%
 }
 #toc{
-	margin-left:750px;
+	margin-left:55%;
+	margin-top:3%;
+	color:yellow;
+	font-size:30px;
+	
 	
 }
 #cs{
-	margin-left:30%;
-	margin-top:-2.3%;
+	margin-left:38%;
+	margin-top:-3.3%;
+	color:yellow;
+	font-size:30px;
+}
+#brick{
+	margin-left:15%;
 }

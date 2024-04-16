@@ -8,7 +8,7 @@
 </head>
 
 <body onload="init()">
-    <canvas id="canvas" width="300" height="400" style="margin-left: 500px;"></canvas>
+    <div id="brick"><canvas id="canvas" width="300" height="400" style="margin-left: 500px;"></canvas></div>
     <p id="toc">Točke: <mark id="tocke">0</mark></p> <!-- Display points -->
     <p id="cs">Čas: <span id="cas">00:00</span></p> <!-- Display timer -->
 	<img src="slika1.png" id="restart" onclick="reload()">
@@ -60,6 +60,7 @@
             HEIGHT = canvas.height;
             intervalId = setInterval(draw, 10); // Assign intervalId
             init_paddle(); // Call init_paddle function
+			canvas.style.background='linear-gradient(to bottom, #ffffcc 33%,#ff9933 100%)';
 
             // Add event listeners for keydown and keyup events
             $(document).on("keydown", onKeyDown);
