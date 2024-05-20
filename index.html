@@ -4,14 +4,17 @@
 <head>
     <title>The bricks</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body onload="init()">
-    <div id="brick"><canvas id="canvas" width="300" height="400" style="margin-left: 500px;"></canvas></div>
+    <div id="brick">
+        <canvas id="canvas" width="300" height="400" style="margin-left: 500px;"></canvas>
+    </div>
     <p id="toc">Točke: <mark id="tocke">0</mark></p> <!-- Display points -->
     <p id="cs">Čas: <span id="cas">00:00</span></p> <!-- Display timer -->
-	<img src="slika1.png" id="restart" onclick="reload()">
+    <img src="slika1.png" id="restart" onclick="reload()">
     <script>
         var x = 150;
         var y = 150;
@@ -51,7 +54,7 @@
         var izpisTimer;
 
         // Flag to control timer start
-        var start = true;
+        var start = false;
 
         function init() {
             canvas = document.getElementById('canvas');
@@ -60,7 +63,7 @@
             HEIGHT = canvas.height;
             intervalId = setInterval(draw, 10); // Assign intervalId
             init_paddle(); // Call init_paddle function
-			canvas.style.background='linear-gradient(to bottom, #ffffcc 33%,#ff9933 100%)';
+            canvas.style.background = 'linear-gradient(to bottom, #ffffcc 33%,#ff9933 100%)';
 
             // Add event listeners for keydown and keyup events
             $(document).on("keydown", onKeyDown);
@@ -103,8 +106,8 @@
             rect(paddlex, HEIGHT - paddleh, paddlew, paddleh);
 
             //riši opeke
-            for (i = 0; i < NROWS; i++) {
-                for (j = 0; j < NCOLS; j++) {
+            for (var i = 0; i < NROWS; i++) {
+                for (var j = 0; j < NCOLS; j++) {
                     if (bricks[i][j] == 1) {
                         rect((j * (BRICKWIDTH + PADDING)) + PADDING,
                             (i * (BRICKHEIGHT + PADDING)) + PADDING,
@@ -113,10 +116,10 @@
                 }
             }
 
-            rowheight = BRICKHEIGHT + PADDING; // Assuming f is not defined, removing it
-            colwidth = BRICKWIDTH + PADDING;
-            row = Math.floor(y / rowheight);
-            col = Math.floor(x / colwidth);
+            var rowheight = BRICKHEIGHT + PADDING;
+            var colwidth = BRICKWIDTH + PADDING;
+            var row = Math.floor(y / rowheight);
+            var col = Math.floor(x / colwidth);
             //Če smo zadeli opeko, vrni povratno kroglo in označi v tabeli, da opeke ni več
             if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
                 dy = -dy;
@@ -124,34 +127,41 @@
                 tocke += 1; // Increase points
                 $("#tocke").html(tocke); // Update points display
             }
-            if (x + dx > WIDTH - r || x + dx < 0 + r)
+            if (x + dx > WIDTH - r || x + dx < r)
                 dx = -dx;
-            if (y + dy < 0 + r)
+            if (y + dy < r)
                 dy = -dy;
-            else if (y + dy > HEIGHT - (r + paddleh)) { // Changed (r + f) to (r + paddleh)
+            else if (y + dy > HEIGHT - (r + paddleh)) {
                 if (x > paddlex && x < paddlex + paddlew) {
                     // Change the direction only if the ball hits the paddle
                     dy = -dy;
                     dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);
                     start = true; // Start the timer
-                } else if (y + dy > HEIGHT - r)
+                } else if (y + dy > HEIGHT - r) {
                     clearInterval(intervalId);
+                    showAlert(tocke); // Show alert with points
+                }
             }
             x += dx;
             y += dy;
 
             // Timer
-            if (start == true) {
+            if (start) {
                 sekunde++;
                 sekundeI = ((sekundeI = (sekunde % 60)) > 9) ? sekundeI : "0" + sekundeI;
                 minuteI = ((minuteI = Math.floor(sekunde / 60)) > 9) ? minuteI : "0" + minuteI;
                 izpisTimer = minuteI + ":" + sekundeI;
                 $("#cas").html(izpisTimer);
-            } else {
-                sekunde = 0;
-                izpisTimer = "00:00";
-                $("#cas").html(izpisTimer);
             }
+        }
+
+        function showAlert(points) {
+            Swal.fire({
+                title: 'Konec igre!',
+                text: 'Prejeli ste ' + points + ' točk',
+                icon: 'info',
+                confirmButtonText: 'V redu'
+            });
         }
 
         function circle(x, y, r) {
@@ -219,16 +229,17 @@
             BRICKHEIGHT = 15;
             PADDING = 1;
             bricks = new Array(NROWS);
-            for (i = 0; i < NROWS; i++) {
+            for (var i = 0; i < NROWS; i++) {
                 bricks[i] = new Array(NCOLS);
-                for (j = 0; j < NCOLS; j++) {
+                for (var j = 0; j < NCOLS; j++) {
                     bricks[i][j] = 1;
                 }
             }
         }
-		function reload(){
-			window.location.reload();
-			}
+
+        function reload() {
+            window.location.reload();
+        }
     </script>
 </body>
 
