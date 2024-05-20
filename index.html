@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body onload="init()">
+<body onload="showWelcomeAlert()">
     <div id="brick">
         <canvas id="canvas" width="300" height="400" style="margin-left: 500px;"></canvas>
     </div>
@@ -55,6 +55,19 @@
 
         // Flag to control timer start
         var start = false;
+
+        function showWelcomeAlert() {
+            Swal.fire({
+                title: 'Pozdravljeni!',
+                text: 'Dobrodošli v igri The Bricks. Pritisnite "Začetek" za začetek igre.',
+                icon: 'info',
+                confirmButtonText: 'Začetek'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    init(); // Start the game when the button is pressed
+                }
+            });
+        }
 
         function init() {
             canvas = document.getElementById('canvas');
@@ -126,6 +139,10 @@
                 bricks[row][col] = 0;
                 tocke += 1; // Increase points
                 $("#tocke").html(tocke); // Update points display
+
+                if (tocke === 20) {
+                    showAlert(tocke); // Show alert when points reach 20
+                }
             }
             if (x + dx > WIDTH - r || x + dx < r)
                 dx = -dx;
